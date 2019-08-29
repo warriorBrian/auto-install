@@ -255,6 +255,9 @@ def continueInstallMongo():
 def executeInstallMongo(version):
     subprocess.call('rm -f /etc/yum.repos.d/mongodb-org-*', shell=True)
     time.sleep(1)
+    # 检查是否安装wget
+    checkWget()
+    time.sleep(1)
     print(inblue('拉取repo镜像源...'))
     time.sleep(1)
     if version == '3':
