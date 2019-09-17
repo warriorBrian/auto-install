@@ -226,7 +226,7 @@ def removeNginx():
         else:
             print(inred('输入错误，重新输入'))
 # **************************************************************
-# 安装Mongodb
+# 安装Mongodb && 卸载mongodb
 def removeMongo():
     while(True):
         uninstall = raw_input(inyellow('是否卸载当前版本MongoDB,'+inred('(可能会导致数据丢失或者正在运行程序停止！)')+inyellow('请输入[y/n]:')))
@@ -289,6 +289,7 @@ def executeInstallMongo(version):
         #subprocess.call(['systemctl', '--failed'], shell=False)
         subprocess.call(['systemctl', 'status', 'mongod.service'], shell=False)
 
+# 检查及卸载mongodb
 def checkMongo():
     (MongoSystemStatus, MongoSystemOutput) = commands.getstatusoutput('systemctl status mongod.service')
     subprocess.call(['systemctl', 'stop', 'mongod.service'], shell=False)
@@ -297,6 +298,14 @@ def checkMongo():
     subprocess.call(['yum', 'remove', 'mongodb-org', '-y'],shell=False)
     print(inblue('擦除依赖包...'))
     time.sleep(0.5)
+    print(inblue('擦除数据库文件...'))
+    time.sleep(0.5)
+    subprocess.call(['rm', '-rf', '/data/db'], shell=False)
+    print(inblue('擦除日志文件防止冲突...'))
+    time.sleep(0.5)
+    subprocess.call(['rm', '-rf', '/var/log/mongodb'], shell=False)
+    print(inblue('擦除所有rpm包'))
+    time.sleep(1)
     subprocess.call('rpm -e --nodeps `rpm -qa | grep mongodb`', shell=True)
     time.sleep(1)
     print(ingreen('依赖包清空完毕'))
