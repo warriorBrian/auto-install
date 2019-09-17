@@ -370,13 +370,13 @@ def removeMysql():
 # **************************************************************
 # 更换源
 def replaceSource():
+    # 检查是否安装wget
+    checkWget()
     print(inblue('执行备份源...'))
     subprocess.call('rm -rf /etc/yum.repos.d/CentOS-Base.repo.backup', shell=True)
     time.sleep(1)
     subprocess.call('mv /etc/yum.repos.d/CentOS-Base.repo /etc/yum.repos.d/CentOS-Base.repo.backup', shell=True)
     print(inblue('覆盖base源'))
-    # 检查是否安装wget
-    checkWget()
     time.sleep(1)
     subprocess.call('wget -O /etc/yum.repos.d/CentOS-Base.repo http://mirrors.aliyun.com/repo/Centos-7.repo', shell=True)
     print(inblue('生成缓存...'))
